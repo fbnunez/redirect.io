@@ -17,8 +17,11 @@ app.use((error, req, res, next) => {
   else res.status(500);
 
   res.json({
-    message: error.message,
-    stack: process.env.NODE_ENV === 'production' ? 'Well....' : error.stack,
+    message: error.message ? error.message : 'Something went wrong 🤔️',
+    stack:
+      process.env.NODE_ENV === 'production'
+        ? 'Pss... this is just for the devs 😅️'
+        : error.stack,
   });
 });
 
