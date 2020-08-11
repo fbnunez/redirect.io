@@ -17,6 +17,7 @@ router.get('/:id', async (req, res, next) => {
   });
 });
 
+// create redirect url
 router.post('/url', async (req, res, next) => {
   const { url } = req.body;
   let { alias } = req.body;
@@ -27,6 +28,14 @@ router.post('/url', async (req, res, next) => {
     });
     if (!alias || alias === '') {
       alias = await urlMaker.getNanoUrl();
+    }
+    const urlExists = await UrlKey.findOne({
+      alias: alias,
+    });
+    if (urlExists) {
+      throw new Error(
+        'Something went wrong... maybe your alias already exists'
+      );
     }
     const urlKeyObj = new UrlKey({
       _id: new mongoose.Types.ObjectId(),
