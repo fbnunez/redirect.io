@@ -1,7 +1,9 @@
 const { Router } = require('express');
 const router = Router();
 const urlMaker = require('./helpers/urlMaker');
-const urlModel = require('./models/url');
+const urlSchema = require('./json_schema/UrlSchema');
+const UrlKey = require('./models/UrlKey');
+const mongoose = require('./database');
 
 router.get('/', (req, res) => {
   res.json({
@@ -19,15 +21,24 @@ router.post('/url', async (req, res, next) => {
   const { url } = req.body;
   let { alias } = req.body;
   try {
-    const isValid = await urlModel.validate({
+    await urlSchema.validate({
       url,
       alias,
     });
     if (!alias || alias === '') {
       alias = await urlMaker.getNanoUrl();
     }
+    const urlKeyObj = new UrlKey({
+      _id: new mongoose.Types.ObjectId(),
+      alias: alias,
+      url: url,
+    });
+    urlKeyObj.save();
     res.json({
-      message: alias,
+      message: {
+        alias,
+        url,
+      },
     });
   } catch (err) {
     next(err);

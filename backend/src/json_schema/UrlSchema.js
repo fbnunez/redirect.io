@@ -1,7 +1,8 @@
 const Joi = require('joi');
+const { urlRegex } = require('../helpers/urlRegex');
 
 const schema = Joi.object().keys({
-  url: Joi.string().trim().uri().required(),
+  url: Joi.string().trim().pattern(urlRegex).required(),
   alias: Joi.string()
     .trim()
     .pattern(/[\w\-]/i)
