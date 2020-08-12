@@ -12,9 +12,24 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', async (req, res, next) => {
-  res.json({
-    message: 'alias',
-  });
+  try {
+    const { id: alias } = req.params;
+    const urlExists = await UrlKey.findOne({
+      alias,
+    });
+    if (!urlExists) {
+      throw new Error('Your redirect was not found. Maybe it has expired?');
+    }
+    /**
+     * @todo
+     * call res.rederict when front end is usable
+     */
+    res.json({
+      message: alias,
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // create redirect url
@@ -30,7 +45,7 @@ router.post('/url', async (req, res, next) => {
       alias = await urlMaker.getNanoUrl();
     }
     const urlExists = await UrlKey.findOne({
-      alias: alias,
+      alias,
     });
     if (urlExists) {
       throw new Error(
