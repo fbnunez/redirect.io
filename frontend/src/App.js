@@ -8,26 +8,14 @@ import RedirectUrl from './components/redirect/RedirectUrl';
 function App() {
   return (
     <div className="App">
-      <Header />
       <Router>
         <Switch>
-          <Route exact path="/home">
-            <InputForm />
-          </Route>
-          {/* <Route
-            path="/redirect"
-            component={() => {
-              const path = window.location.pathname.split('/');
-              if (path.length > 3 || path.length === 2) {
-                return <RedirectUrl />;
-              } else {
-                window.location.href = 'https://example.com/1234';
-                return null;
-              }
-            }}
-          /> */}
-          <Route path="/redirect">
+          <Route path="/url">
             <RedirectUrl />
+          </Route>
+          <Header />
+          <Route path="/">
+            <InputForm />
           </Route>
         </Switch>
       </Router>
