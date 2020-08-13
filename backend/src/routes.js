@@ -5,13 +5,13 @@ const urlSchema = require('./json_schema/UrlSchema');
 const UrlKey = require('./models/UrlKey');
 const mongoose = require('./database');
 
-router.get('/', (req, res) => {
+router.get('/api', (req, res) => {
   res.json({
     message: 'redirect.io is a url-shortener/redirect',
   });
 });
 
-router.get('/redirect/:id', async (req, res, next) => {
+router.get('/api/redirect/:id', async (req, res, next) => {
   try {
     const { id: alias } = req.params;
     const urlExists = await UrlKey.findOne({
@@ -24,7 +24,6 @@ router.get('/redirect/:id', async (req, res, next) => {
      * @todo
      * call res.rederict when front end is usable
      */
-    // res.redirect(urlExists.url);
     res.json({
       message: alias,
       url: urlExists.url,
@@ -35,7 +34,7 @@ router.get('/redirect/:id', async (req, res, next) => {
 });
 
 // create redirect url
-router.post('/url', async (req, res, next) => {
+router.post('/api/url', async (req, res, next) => {
   const { url } = req.body;
   let { alias } = req.body;
   try {
