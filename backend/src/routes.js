@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/redirect/:id', async (req, res, next) => {
   try {
     const { id: alias } = req.params;
     const urlExists = await UrlKey.findOne({
@@ -24,8 +24,10 @@ router.get('/:id', async (req, res, next) => {
      * @todo
      * call res.rederict when front end is usable
      */
+    // res.redirect(urlExists.url);
     res.json({
       message: alias,
+      url: urlExists.url,
     });
   } catch (err) {
     next(err);
