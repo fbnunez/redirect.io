@@ -12,7 +12,6 @@ function FetchData(path) {
           const alias = path.split('/')[2];
           const response = await fetch(`/redirect/${alias}`, { method: 'GET' });
           const json = await response.json();
-          console.log(json);
           if (response.status === 200) {
             setResult(json.url);
           } else {
@@ -32,10 +31,9 @@ function FetchData(path) {
 }
 
 function RedirectUrl() {
-  const [path, setPath] = useState(() => window.location.pathname);
+  const [path] = useState(() => window.location.pathname);
   const [result, loading, error] = FetchData(path);
-  const [color, setColor] = useState(() => 'white');
-  console.log(result);
+  const [color] = useState(() => 'white');
 
   return (
     <div

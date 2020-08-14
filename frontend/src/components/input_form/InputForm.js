@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import Field from '../../shared/form_field/Field';
 import Header from '../header/Header';
 import './InputForm.css';
-import { Button, Box, Grid } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { useTransition, animated } from 'react-spring';
 
 function InputForm() {
   const [url, setUrl] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
   const [result, setResult] = useState();
   const [show, setShow] = useState(false);
   const transitions = useTransition(show, null, {
@@ -36,9 +35,7 @@ function InputForm() {
         },
       });
       const json = await response.json();
-      console.log(response.status);
       if (response.status === 200) {
-        console.log(json.alias);
         setResult(`redirect.io/url/${json.alias}`);
       } else {
         setUrl('');
@@ -54,7 +51,6 @@ function InputForm() {
         stack: '',
       });
     } finally {
-      setLoading(false);
       setShow(true);
     }
   }

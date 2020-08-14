@@ -4,8 +4,7 @@ import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import './ErrorPage.css';
 
 function ErrorPage(props) {
-  const [errorObject, setErrorObject] = useState(() => props.errorObject);
-  console.log(errorObject.message);
+  const [errorObject] = useState(() => props.errorObject);
 
   return (
     <div className="error_page">
