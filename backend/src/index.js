@@ -4,10 +4,17 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const routes = require('./routes');
 require('dotenv').config();
+const rfs = require('rotating-file-stream');
+const path = require('path');
 
 const app = express();
+const logStream = rfs.createStream('request.log', {
+  interval: '1d',
+  size: '50M',
+  path: path.join(__dirname, 'logs'),
+});
 app.use(helmet());
-app.use(morgan('tiny'));
+app.use(morgan('combined', { stream: logStream }));
 app.use(cors());
 app.use(express.json());
 app.use(routes);
