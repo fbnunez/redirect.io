@@ -3,17 +3,25 @@ import Field from '../../shared/form_field/Field';
 import Header from '../header/Header';
 import './InputForm.css';
 import { Button, Box, Grid } from '@material-ui/core';
-import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
+import { useTransition, animated } from 'react-spring';
 
 function InputForm() {
-  const [url, setUrl] = useState('URL');
+  const [url, setUrl] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState();
+  const [show, setShow] = useState(false);
+  const transitions = useTransition(show, null, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
   async function Redirect(obj) {
-    setResult('');
+    setShow(false);
     try {
+      setResult('');
       if (obj.url.length <= 7) {
+        setUrl('');
         setError({ message: 'Your URL is too short' });
         return;
       }
@@ -47,6 +55,7 @@ function InputForm() {
       });
     } finally {
       setLoading(false);
+      setShow(true);
     }
   }
   const callback = (event) => {
@@ -84,7 +93,16 @@ function InputForm() {
           Redirect
         </Button>
       </Grid>
-      <div className="result">{result ? <h1>{result}</h1> : null}</div>
+      <div className="result">
+        {transitions.map(
+          ({ item, key, props }) =>
+            item && (
+              <animated.div key={key} style={props}>
+                <h1>{result}</h1>
+              </animated.div>
+            )
+        )}
+      </div>
     </div>
   );
 }
