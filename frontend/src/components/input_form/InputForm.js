@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './InputForm.css';
 import Field from '../../shared/form_field/Field';
 import { Button, Box, Grid } from '@material-ui/core';
 

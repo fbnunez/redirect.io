@@ -1,0 +1,33 @@
+body {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.error_page {
+  color: #2b2b2b;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.error_icon {
+  padding: 10px !important;
+  font-size: 75px !important;
+}
+
+h1 {
+  /* width: 100%; */
+  height: 40px;
+  margin: 0 auto;
+  width: fit-content;
+  padding: 0px 50px;
+  margin-bottom: 20px;
+  border: 3px #2b2b2b solid;
+}
+
+.footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding-bottom: 30px;
+}

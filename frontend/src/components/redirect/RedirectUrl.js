@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import ErrorPage from '../error_page/ErrorPage';
 
 function FetchData(path) {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
   useEffect(() => {
     async function getUrl() {
       try {
@@ -10,8 +12,14 @@ function FetchData(path) {
           const alias = path.split('/')[2];
           const response = await fetch(`/redirect/${alias}`, { method: 'GET' });
           const json = await response.json();
+          console.log(json);
           if (response.status === 200) {
             setResult(json.url);
+          } else {
+            setError({
+              message: json.message,
+              stack: json.stack,
+            });
           }
         }
       } finally {
@@ -20,12 +28,12 @@ function FetchData(path) {
     }
     getUrl();
   }, []);
-  return [result, loading];
+  return [result, loading, error];
 }
 
 function RedirectUrl() {
   const [path, setPath] = useState(() => window.location.pathname);
-  const [result, loading] = FetchData(path);
+  const [result, loading, error] = FetchData(path);
   const [color, setColor] = useState(() => 'white');
   console.log(result);
 
@@ -37,9 +45,7 @@ function RedirectUrl() {
       }}
     >
       {loading ? null : !result ? (
-        <div>
-          <h1>WRONG URL</h1>
-        </div>
+        <ErrorPage errorObject={error} />
       ) : (
         null((window.location.href = result))
       )}
