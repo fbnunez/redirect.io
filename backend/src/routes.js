@@ -60,10 +60,7 @@ router.post('/api/url', async (req, res, next) => {
     });
     urlKeyObj.save();
     res.json({
-      message: {
-        alias,
-        url,
-      },
+      alias,
     });
   } catch (err) {
     next(err);
