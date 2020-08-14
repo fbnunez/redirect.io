@@ -20,10 +20,6 @@ router.get('/api/redirect/:id', async (req, res, next) => {
     if (!urlExists) {
       throw new Error('Your redirect was not found. Maybe it has expired?');
     }
-    /**
-     * @todo
-     * call res.rederict when front end is usable
-     */
     res.json({
       message: alias,
       url: urlExists.url,
