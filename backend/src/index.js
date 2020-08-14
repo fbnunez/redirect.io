@@ -10,8 +10,9 @@ const path = require('path');
 const app = express();
 const logStream = rfs.createStream('request.log', {
   interval: '1d',
-  size: '50M',
+  size: '100M',
   path: path.join(__dirname, 'logs'),
+  compress: 'gzip',
 });
 app.use(helmet());
 app.use(morgan('combined', { stream: logStream }));
